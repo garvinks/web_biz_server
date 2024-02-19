@@ -73,7 +73,7 @@ class XdbSearcher(object):
         else:
             return self.searchByIPLong(ip)
 
-    def searchByIPStr(self, ip):
+    def searchByIPStr(self, ip) -> str:
         if not ip.isdigit(): ip = self.ip2long(ip)
         return self.searchByIPLong(ip)
 

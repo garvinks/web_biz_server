@@ -19,6 +19,7 @@ sys.path.append(BASE_PATH)
 
 from util.logger_util import logger_split
 from util.logger_util import logger_common
+from service.get_ip_region import ip_searcher
 
 logger_info = logger_split(log_name="web_biz_server.log")
 logger_error = logger_common(log_name="error.log")
@@ -27,10 +28,7 @@ logger_error = logger_common(log_name="error.log")
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         ip = self.request.remote_ip
-        logger_info.info(ip)
-        logger_info.info(type(ip))
-        logger_error.info("main")
-        self.write("Hello, world" + ip)
+        self.write(f"Hello, world. ip:{ip} region:{ip_searcher.searchByIPStr(ip)}")
 
 
 def make_app():

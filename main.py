@@ -26,9 +26,11 @@ logger_error = logger_common(log_name="error.log")
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        logger_info.info("main")
+        ip = self.request.remote_ip
+        logger_info.info(ip)
+        logger_info.info(type(ip))
         logger_error.info("main")
-        self.write("Hello, world")
+        self.write("Hello, world" + ip)
 
 
 def make_app():

@@ -22,4 +22,9 @@ conda create --name conda310 python=3.10
 conda activate conda310
 conda deactivate
 
+# 配置开发环境
+pip install pipreqs
+pipreqs ./ --force
+
+pip install -r requirements.txt
 ```

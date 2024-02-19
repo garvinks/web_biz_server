@@ -5,6 +5,7 @@
 ```shell
 # 安装git
 yum install git
+yum install zsh
 
 # 查看服务器
 uname -a
@@ -37,4 +38,15 @@ pip install pipreqs
 pipreqs ./ --force
 
 pip install -r requirements.txt
+
+# 安装配置ZSH
+sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)" \
+    && cd ~/.oh-my-zsh/custom/plugins/ \
+    && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+    && git clone https://github.com/zsh-users/zsh-autosuggestions.git \
+    && cd ~
+
+sed -i 's/robbyrussell/ys/' ~/.zshrc
+sed -i 's/plugins=(git)/plugins=(git zsh-syntax-highlighting zsh-autosuggestions)/' ~/.zshrc
+
 ```

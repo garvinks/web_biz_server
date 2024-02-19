@@ -11,16 +11,19 @@ Description: This script is used to do something.
 import os
 import sys
 
-SRC_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
-sys.path.append(SRC_PATH)
+BASE_PATH = os.path.dirname(__file__)
+sys.path.append(BASE_PATH)
 
-from util.logger_util import LoggerUtil
+from util.logger_util import logger_split
+from util.logger_util import logger_common
 
-logger = LoggerUtil(log_name="common")
+logger_info = logger_split(log_name="web_biz_server.log")
+logger_error = logger_common(log_name="error.log")
 
 
 def main():
-    logger.info("main")
+    logger_info.info("main")
+    logger_error.info("main")
 
 
 if __name__ == "__main__":

@@ -19,5 +19,7 @@ sh Miniconda3-latest-Linux-x86_64.sh
 # 创建虚拟环境
 conda create --name conda310 python=3.10
 
+conda activate conda310
+conda deactivate
 
 ```

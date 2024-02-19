@@ -11,7 +11,7 @@ Description: This script is used to do something.
 import os
 import sys
 
-BASE_PATH = os.path.join(os.path.dirname(__file__))
+BASE_PATH = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_PATH)
 
 from util.logger_util import logger_split

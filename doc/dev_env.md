@@ -49,4 +49,6 @@ sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/to
 sed -i 's/robbyrussell/ys/' ~/.zshrc
 sed -i 's/plugins=(git)/plugins=(git zsh-syntax-highlighting zsh-autosuggestions)/' ~/.zshrc
 
+conda init zsh
+echo "conda activate conda39" >> ~/.zshrc
 ```

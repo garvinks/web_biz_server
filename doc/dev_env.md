@@ -9,6 +9,16 @@ yum install git
 # 查看服务器
 uname -a
 
+# 配置VIM
+echo "set number" >> ~/.vimrc \
+    && echo "syntax on" >> ~/.vimrc \
+    && echo "set showmode" >> ~/.vimrc \
+    && echo "set encoding=utf-8" >> ~/.vimrc \
+    && echo "set cursorline" >> ~/.vimrc \
+    && echo "set ruler" >> ~/.vimrc \
+    && echo "set hlsearch" >> ~/.vimrc \
+    && echo "set visualbell" >> ~/.vimrc
+
 # 安装对应版本的miniconda
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh

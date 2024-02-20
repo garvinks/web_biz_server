@@ -28,7 +28,7 @@ class FilterUtil(object):
         self.key_ip = "ip"
         self.map[self.key_ip] = dict()
 
-    def filter_by_str(self, s: str) -> bool:
+    def filter_by_str(self, s: str, limit: int = 10) -> bool:
         current_time = int(time.time())
         val_ip = self.map.get(self.key_ip, dict()).get(s, list())
         in_time_ip = []
@@ -36,7 +36,7 @@ class FilterUtil(object):
             if current_time - i > 60:
                 continue
             in_time_ip.append(i)
-        if len(in_time_ip) > 10:
+        if len(in_time_ip) > limit:
             logger_error.debug(f"error - {s} - {in_time_ip}")
             return False
         in_time_ip.append(current_time)

@@ -18,26 +18,27 @@ BASE_PATH = os.path.dirname(__file__)
 sys.path.append(BASE_PATH)
 
 from util.logger_util import logger_split
-from util.logger_util import logger_common
-from util.ip_util import ip_searcher
+from util.ip_util import class_ip_util
+from controller.health_controller import HealthController
 
-logger_info = logger_split(log_name="web_biz_server.log")
-logger_error = logger_common(log_name="error.log")
+logger_info = logger_split(log_name="web_biz_server.log", log_screen=False)
 
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         ip = self.request.remote_ip
-        self.write(f"Hello, world. ip:{ip} region:{ip_searcher.searchByIPStr(ip)}")
+        self.write(f"Hello, world. ip:{ip} region:{class_ip_util.get_region_by_ip(ip)}")
 
 
 def make_app():
     return tornado.web.Application([
         (r"/", MainHandler),
+        (r"/health", HealthController),
     ])
 
 
 async def main():
+    logger_info.info("Starting web_biz_server...")
     app = make_app()
     app.listen(9999)
     await asyncio.Event().wait()

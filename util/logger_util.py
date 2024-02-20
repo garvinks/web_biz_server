@@ -34,6 +34,7 @@ def logger_split(
         log_name: str = "split.log",
         log_dir: str = LOG_PATH,
         log_level: Literal["debug", "info", "warning", "error", "critical"] = "info",
+        log_screen: bool = True,
         log_keep_days: int = 15,
 ) -> logging.Logger:
     log_path = os.path.join(log_dir, log_name)
@@ -41,9 +42,10 @@ def logger_split(
 
     logger.setLevel(LOGGER_LEVEL.get(log_level, "info"))
 
-    log_screen = logging.StreamHandler()
-    log_screen.setFormatter(LOG_FORMATTER)
-    logger.addHandler(log_screen)
+    if log_screen:
+        log_screen = logging.StreamHandler()
+        log_screen.setFormatter(LOG_FORMATTER)
+        logger.addHandler(log_screen)
 
     try:
         file_handler = TimedRotatingFileHandler(

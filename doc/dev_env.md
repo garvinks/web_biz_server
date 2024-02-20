@@ -54,5 +54,6 @@ echo "conda activate conda39" >> ~/.zshrc
 
 # 后台部署程序
 nohup python main.py &
+nohup python main.py > /dev/null 2>&1 &
 kill $(ps -ef | grep 'python main.py' | grep -v grep | awk '{print $2}')
 ```

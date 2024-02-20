@@ -16,7 +16,8 @@ import io
 from typing import Union
 
 BASE_PATH = os.path.dirname(os.path.dirname(__file__))
-DATA_PATH = os.path.join(BASE_PATH, "data")
+RESOURCE_PATH = os.path.join(BASE_PATH, "resource")
+DATA_PATH = os.path.join(RESOURCE_PATH, "data")
 IP_DB_PATH = os.path.join(DATA_PATH, "ip_region_map.xdb")
 sys.path.append(BASE_PATH)
 

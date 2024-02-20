@@ -5,7 +5,7 @@ import sys
 BASE_PATH = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 sys.path.append(BASE_PATH)
 
-from service.get_ip_region import ip_searcher
+from util.ip_util import class_ip_util
 
 
 class MyTestCase(unittest.TestCase):
@@ -19,8 +19,8 @@ class MyTestCase(unittest.TestCase):
         # 3. 执行查询
         # ip = "1.2.3.4"
         for ip in ip_array:
-            region_str = ip_searcher.searchByIPStr(ip)
-            print(region_str)
+            err, region_str = class_ip_util.get_region_by_ip(ip)
+            print(err + region_str)
         self.assertEqual(True, True)  # add assertion here
 
 

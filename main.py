@@ -19,7 +19,7 @@ sys.path.append(BASE_PATH)
 
 from util.logger_util import logger_split
 from util.logger_util import logger_common
-from service.get_ip_region import ip_searcher
+from util.ip_util import ip_searcher
 
 logger_info = logger_split(log_name="web_biz_server.log")
 logger_error = logger_common(log_name="error.log")

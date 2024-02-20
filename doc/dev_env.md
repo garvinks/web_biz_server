@@ -51,4 +51,8 @@ sed -i 's/plugins=(git)/plugins=(git zsh-syntax-highlighting zsh-autosuggestions
 
 conda init zsh
 echo "conda activate conda39" >> ~/.zshrc
+
+# 后台部署程序
+nohup python main.py &
+kill $(ps -ef | grep 'python main.py' | grep -v grep | awk '{print $2}')
 ```

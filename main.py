@@ -25,16 +25,30 @@ from controller.image_controller import ImageController, ImageControllerGetImage
 def make_app():
     return tornado.web.Application([
         (r"/health", HealthController),
+
         (r"/image", ImageController),
         (r"/image/get_image", ImageControllerGetImage),
         (r"/image/upload_image", ImageControllerUploadImage),
+
     ])
 
 
+def init():
+    """CREATE TABLE IF NOT EXISTS students (
+    id INT,
+    name VARCHAR(50),
+    age INT
+);"""
+    pass
+
+
 async def main():
+    logger_info.info("Starting web_biz_server")
+    init()
+    logger_info.info("init server")
     app = make_app()
     app.listen(9999)
-    logger_info.info("Starting web_biz_server...")
+    logger_info.info("run server")
     await asyncio.Event().wait()
 
 

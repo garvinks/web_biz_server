@@ -15,11 +15,7 @@ import time
 BASE_PATH = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_PATH)
 
-from util.logger_util import logger_split
-from util.logger_util import logger_common
-
-logger_info = logger_split(log_name="web_biz_server.log")
-logger_error = logger_common(log_name="error.log")
+from util.logger_util import logger_info, logger_error
 
 
 class FilterUtil(object):

@@ -83,3 +83,7 @@ def logger_common(
     except FileNotFoundError as e:
         logger.error(e)
     return logger
+
+
+logger_info = logger_split(log_name="web_biz_server.log")
+logger_error = logger_common(log_name="error.log")

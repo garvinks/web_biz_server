@@ -5,7 +5,7 @@ import sys
 BASE_PATH = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 sys.path.append(BASE_PATH)
 
-from util.ip_util import class_ip_util
+from util.ip_util import class_ip_util, IpUtil
 
 
 class MyTestCase(unittest.TestCase):
@@ -21,6 +21,11 @@ class MyTestCase(unittest.TestCase):
         for ip in ip_array:
             err, region_str = class_ip_util.get_region_by_ip(ip)
             print(err + region_str)
+        self.assertEqual(True, True)  # add assertion here
+
+    def test_something_else(self):
+        ip = IpUtil.get_ip_address()
+        print(ip)
         self.assertEqual(True, True)  # add assertion here
 
 

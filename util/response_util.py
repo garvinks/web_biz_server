@@ -21,8 +21,8 @@ from dto.response_dto import ResponseDTO
 class ResponseUtil(object):
     @staticmethod
     def success(code: int = 0, message: str = "", data: object = None):
-        return json.dumps(ResponseDTO(success=True, code=code, message=message, data=data)._asdict())
+        return ResponseDTO(success=True, code=code, message=message, data=data)._asdict()
 
     @staticmethod
     def error(code: int = 0, message: str = "", data: object = None):
-        return json.dumps(ResponseDTO(success=False, code=code, message=message, data=data)._asdict())
+        return ResponseDTO(success=False, code=code, message=message, data=data)._asdict()

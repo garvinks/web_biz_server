@@ -9,7 +9,6 @@ Description: This script is used to do something.
 """
 
 import os
-import sys
 import socket
 import struct
 import io
@@ -19,13 +18,6 @@ BASE_PATH = os.path.dirname(os.path.dirname(__file__))
 RESOURCE_PATH = os.path.join(BASE_PATH, "resource")
 DATA_PATH = os.path.join(RESOURCE_PATH, "data")
 IP_DB_PATH = os.path.join(DATA_PATH, "ip_region_map.xdb")
-sys.path.append(BASE_PATH)
-
-from util.logger_util import logger_split
-from util.logger_util import logger_common
-
-logger_info = logger_split(log_name="web_biz_server.log")
-logger_error = logger_common(log_name="error.log")
 
 
 class IpUtil(object):
@@ -120,6 +112,18 @@ class IpUtil(object):
             f = io.open(IP_DB_PATH, "rb")
             self.content_buff = f.read()
             f.close()
+
+    @staticmethod
+    def get_ip_address() -> str:
+        # 获取主私网IP 不是公网IP
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        try:
+            # 使用连接到公共IP地址的域名，然后获取本地IP地址
+            s.connect(('8.8.8.8', 80))
+            ip_address = s.getsockname()[0]
+        finally:
+            s.close()
+        return ip_address
 
 
 class_ip_util = IpUtil()

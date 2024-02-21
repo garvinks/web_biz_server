@@ -18,6 +18,7 @@ BASE_PATH = os.path.dirname(__file__)
 sys.path.append(BASE_PATH)
 
 from util.logger_util import logger_info
+from init.sqlite_struct_init import SqliteStructInit
 from controller.health_controller import HealthController
 from controller.image_controller import ImageController, ImageControllerGetImage, ImageControllerUploadImage
 
@@ -33,13 +34,9 @@ def make_app():
     ])
 
 
-def init():
-    """CREATE TABLE IF NOT EXISTS students (
-    id INT,
-    name VARCHAR(50),
-    age INT
-);"""
-    pass
+def init() -> None:
+    SqliteStructInit.execute_init()
+    return
 
 
 async def main():

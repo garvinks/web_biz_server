@@ -11,6 +11,9 @@ Description: This script is used to do something.
 import os
 import sys
 import sqlite3
+from typing import List, Union
+
+import pandas as pd
 
 BASE_PATH = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_PATH)
@@ -18,59 +21,66 @@ RESOURCE_PATH = os.path.join(BASE_PATH, "resource")
 DATA_PATH = os.path.join(RESOURCE_PATH, "data")
 SQLITE_DB_PATH = os.path.join(DATA_PATH, "sqlite.db")
 
+from util.logger_util import logger_error, logger_info
+
 
 class SqliteUtil(object):
     def __init__(self):
         self.conn = sqlite3.connect(SQLITE_DB_PATH)
-        self.conn.is_connected()
 
-    def get_conn(self):
-        # 事务需要
+    def get_conn(self) -> sqlite3.Connection:
         return self.conn
 
-    # connection_prod = mysql_object_prod.get_connection()
-    # try:
-    #     with connection_prod.cursor() as cursor_prod:
-    #         # 开启事务
-    #         connection_prod.begin()
-    #
-    #     # 提交事务
-    #     logger.info("开始提交事务")
-    #     connection_prod.commit()
-    # except Exception as e:
-    #     # 如果发生异常，回滚事务
-    #     connection_prod.rollback()
-    #     logger.error("Transaction rolled back due to error:", str(e))
-    #
-    # finally:
-    #     # 关闭数据库连接
-    #     connection_prod.close()
+    def close_conn(self) -> None:
+        self.conn.close()
+        return
 
-    def init_table(self):
-        # 游标
-        c = self.conn.cursor()
+    def query(self, sql: str, params: Union[tuple, list] = None) -> List[tuple]:
+        cursor = self.get_conn().cursor()
+        res = None
+        try:
+            cursor.execute(sql, params)
+            res = cursor.fetchall()
+        except Exception as e:
+            logger_error.error(f"sql:{sql},params:{params},e:{e}")
+        finally:
+            cursor.close()
+        return res
 
-        # 建表语句
-        c.execute("""
-        CREATE TABLE IF NOT EXISTS students (
-            id INT,
-            name VARCHAR(50),
-            age INT
-            )""")
-        # c.rowcount
+    def query_df(self, sql, params: Union[tuple, list] = None) -> pd.DataFrame:
+        df = pd.read_sql(sql, con=self.conn, params=params)
+        logger_info.debug(f"shape:{df.shape},columns:{df.columns}")
+        return df
 
-        # 执行
-        self.conn.commit()
+    def execute(self, sql: str, params: Union[tuple, list] = None) -> int:
+        cursor = self.conn.cursor()
+        row = 0
+        try:
+            cursor.execute(sql, params)
+            self.conn.commit()
+            row = cursor.rowcount
+            logger_info.debug(f"affect rows: {row}")
+        except Exception as e:
+            self.conn.rollback()
+            logger_error.error(f"sql:{sql},params:{params},e:{e}")
+        finally:
+            cursor.close()
+        return row
 
-        # 关闭连接
-        # self.conn.close()
-# c = conn.cursor()
-# c.execute('''CREATE TABLE COMPANY
-#        (ID INT PRIMARY KEY     NOT NULL,
-#        NAME           TEXT    NOT NULL,
-#        AGE            INT     NOT NULL,
-#        ADDRESS        CHAR(50),
-#        SALARY         REAL);''')
-# print ("数据表创建成功")
-# conn.commit()
-# conn.close()
+    def execute_many(self, sql, params: List[Union[tuple, list]]) -> int:
+        cursor = self.conn.cursor()
+        row = 0
+        try:
+            cursor.executemany(sql, params)
+            self.conn.commit()
+            row = cursor.rowcount
+            logger_info.debug(f"affect rows: {row}")
+        except Exception as e:
+            self.conn.rollback()
+            logger_error.error(f"sql:{sql},params:{params},e:{e}")
+        finally:
+            cursor.close()
+        return row
+
+
+class_sqlite_util = SqliteUtil()

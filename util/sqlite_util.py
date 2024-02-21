@@ -39,7 +39,10 @@ class SqliteUtil(object):
         cursor = self.get_conn().cursor()
         res = None
         try:
-            cursor.execute(sql, params)
+            if params is None:
+                cursor.execute(sql)
+            else:
+                cursor.execute(sql, params)
             res = cursor.fetchall()
         except Exception as e:
             logger_error.error(f"sql:{sql},params:{params},e:{e}")
@@ -56,7 +59,10 @@ class SqliteUtil(object):
         cursor = self.conn.cursor()
         row = 0
         try:
-            cursor.execute(sql, params)
+            if params is None:
+                cursor.execute(sql)
+            else:
+                cursor.execute(sql, params)
             self.conn.commit()
             row = cursor.rowcount
             logger_info.debug(f"affect rows: {row}")
@@ -71,7 +77,10 @@ class SqliteUtil(object):
         cursor = self.conn.cursor()
         row = 0
         try:
-            cursor.executemany(sql, params)
+            if params is None:
+                cursor.executemany(sql)
+            else:
+                cursor.executemany(sql, params)
             self.conn.commit()
             row = cursor.rowcount
             logger_info.debug(f"affect rows: {row}")

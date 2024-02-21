@@ -28,15 +28,15 @@ class SqliteStructInit(object):
     def execute_init() -> bool:
         ok = True
         with open(INIT_SQL_PATH, 'r', encoding='utf-8') as file:
-            sql_content = file.read()
-        logger_info.debug(sql_content)
+            sql_script = file.read()
+        logger_info.debug(sql_script)
         conn = class_sqlite_util.get_conn()
         cursor = conn.cursor()
         try:
             # 开始事务
             cursor.execute('BEGIN TRANSACTION')
             # 执行SQL命令
-            cursor.execute(sql_content)
+            cursor.executescript(sql_script)
             # 提交事务
             conn.commit()
         except Exception as e:

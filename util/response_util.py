@@ -26,3 +26,8 @@ class ResponseUtil(object):
     @staticmethod
     def error(code: int = 0, message: str = "", data: object = None):
         return ResponseDTO(success=False, code=code, message=message, data=data)._asdict()
+
+    @staticmethod
+    def error_param(req: object):
+        message = f"参数错误: {req}"
+        return ResponseDTO(success=False, code=10001, message=message, data=None)._asdict()

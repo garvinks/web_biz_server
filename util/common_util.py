@@ -10,12 +10,10 @@ Description: This script is used to do something.
 import hashlib
 import os
 import sys
-import time
+import uuid
 
 BASE_PATH = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_PATH)
-
-from util.logger_util import logger_info, logger_error
 
 
 class CommonUtil(object):
@@ -31,3 +29,7 @@ class CommonUtil(object):
         md5 = hashlib.md5()
         md5.update(s.encode('utf-8'))
         return md5.hexdigest()
+
+    @staticmethod
+    def get_uuid() -> str:
+        return str(uuid.uuid4()).replace('-', '')

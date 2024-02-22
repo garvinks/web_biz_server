@@ -7,6 +7,7 @@ Email: garvin210905@gmail.com
 Created Time: 2024/2/20 11:33
 Description: This script is used to do something.
 """
+import json
 import mimetypes
 import os
 import sys
@@ -28,7 +29,8 @@ class ImageController(tornado.web.RequestHandler):
 
 class ImageControllerGetImage(tornado.web.RequestHandler):
     def get(self):
-        image_name = self.get_argument('image_name', None)
+        req = json.loads(self.request.body.decode('utf-8'))
+        image_name = req.get('image_name', None)
         if not image_name:
             self.write(ResponseUtil.error(data='Missing Param: image_name'))
             return

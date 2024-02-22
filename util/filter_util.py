@@ -24,12 +24,12 @@ class FilterUtil(object):
         self.key_ip = "ip"
         self.map[self.key_ip] = dict()
 
-    def filter_by_str(self, s: str, limit: int = 10) -> bool:
+    def filter_by_str(self, s: str, limit: int = 5, timeout: int = 5) -> bool:
         current_time = int(time.time())
         val_ip = self.map.get(self.key_ip, dict()).get(s, list())
         in_time_ip = []
         for i in val_ip:
-            if current_time - i > 60:
+            if current_time - i > timeout:
                 continue
             in_time_ip.append(i)
         if len(in_time_ip) > limit:

@@ -33,7 +33,7 @@ class LotteryPrizeInit(object):
             # 开始事务
             cursor.execute('BEGIN TRANSACTION')
             # 执行SQL命令
-            curr_order_no = 'DCB0000000000'  # DCB2024020101
+            curr_order_no = 'DCB00000000'  # DCB20240201
             df = class_sqlite_util.query_df(f"select * from t_lottery_prize where order_no = '{curr_order_no}'")
             if df.shape[0] == 1:
                 return ok
@@ -44,7 +44,7 @@ class LotteryPrizeInit(object):
             cursor.execute(
                 f"insert into t_lottery_prize (order_no, prize_code, prize_pool, created_at, expired_at, order_date) values (?,?,?,?,?,?)",
                 zero_data)
-            order_no = f"DCB{order_date.replace('-', '')}"
+            order_no = f"DCB{order_date.replace('-', '')[:-2]}01"
             new_data = (order_no, s, 0, current_time, expired_at, order_date)
             cursor.execute(
                 f"insert into t_lottery_prize (order_no, prize_code, prize_pool, created_at, expired_at, order_date) values (?,?,?,?,?,?)",

@@ -17,6 +17,7 @@ BASE_PATH = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_PATH)
 
 from util.response_util import ResponseUtil
+from service.lottery_service import class_lottery_service
 
 
 class LotteryController(tornado.web.RequestHandler):
@@ -44,11 +45,12 @@ class LotteryControllerDoubleColorBallBuyTicket(tornado.web.RequestHandler):
         if type(blue_ball) is not int or blue_ball < 1 or blue_ball > 16:
             self.write(ResponseUtil.error_param(req))
             return
+        if class_lottery_service.lock:
+            self.write(ResponseUtil.error(message="buy is lock, please try again later.", data=req))
+            return
 
-        # if not file_dict_list:
-        #     self.write(ResponseUtil.error(data='Missing Param: image_file'))
-        #     return
-        self.write(ResponseUtil.success())
+        trace_id = class_lottery_service.double_color_ball_buy_ticket(red_balls, blue_ball)
+        self.write(ResponseUtil.success(data={'trace_id': trace_id}))
 
 
 class LotteryControllerDoubleColorBallClaimPrize(tornado.web.RequestHandler):

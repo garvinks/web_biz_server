@@ -1,3 +1,4 @@
+import json
 import unittest
 import os
 import sys
@@ -28,6 +29,15 @@ class MyTestCase(unittest.TestCase):
         sql = "select * from t_user where id=?"
         a = class_sqlite_util.query(sql, (1,))
         print(a)
+        self.assertEqual(True, True)  # add assertion here
+
+    def test_something_else3(self):
+        res = class_sqlite_util.query("select id,prize_code,order_no from t_lottery_prize order by id desc limit 1")
+        (prize_id, prize_code, order_no) = res[0]
+        m = json.loads(prize_code)
+        print(m['red_balls'][1])
+        print(prize_id)
+        print(order_no)
         self.assertEqual(True, True)  # add assertion here
 
 

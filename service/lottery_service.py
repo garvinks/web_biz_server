@@ -23,6 +23,7 @@ from util.sqlite_util import class_sqlite_util
 
 class LotteryService(object):
     def __init__(self):
+        self.lock = False
         pass
 
     def double_color_ball_buy_ticket(self, red_balls: list, blue_ball: int):
@@ -77,3 +78,6 @@ class LotteryService(object):
     @staticmethod
     def get_expire_timestamp(date: str) -> int:
         return int((datetime.strptime(date + " 21:30:00", "%Y-%m-%d %H:%M:%S") + timedelta(days=60)).timestamp() * 1000)
+
+
+class_lottery_service = LotteryService()

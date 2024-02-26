@@ -13,6 +13,7 @@ import sys
 
 import asyncio
 import tornado
+from tornado.ioloop import PeriodicCallback
 
 BASE_PATH = os.path.dirname(__file__)
 sys.path.append(BASE_PATH)
@@ -25,6 +26,7 @@ from controller.user_controller import UserController
 from controller.image_controller import ImageController, ImageControllerGetImage, ImageControllerUploadImage
 from controller.lottery_controller import LotteryController, LotteryControllerDoubleColorBall, \
     LotteryControllerDoubleColorBallBuyTicket, LotteryControllerDoubleColorBallClaimPrize
+from schedule.lottery_prize_schedule import LotteryPrizeSchedule
 
 
 def make_app():
@@ -64,6 +66,11 @@ async def main():
     app = make_app()
     app.listen(9999)
     logger_info.info("run server")
+
+    # 启动周期性任务
+    callback = PeriodicCallback(LotteryPrizeSchedule.refresh_dcb_prize, 1000)
+    callback.start()
+
     await asyncio.Event().wait()
 
 

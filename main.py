@@ -19,6 +19,7 @@ sys.path.append(BASE_PATH)
 
 from util.logger_util import logger_info
 from init.sqlite_struct_init import SqliteStructInit
+from init.lottery_prize_init import LotteryPrizeInit
 from controller.health_controller import HealthController
 from controller.user_controller import UserController
 from controller.image_controller import ImageController, ImageControllerGetImage, ImageControllerUploadImage
@@ -49,7 +50,10 @@ def make_app():
 
 
 def init() -> None:
-    SqliteStructInit.execute_init()
+    if not SqliteStructInit.execute_init():
+        raise Exception('SqliteStructInit.execute_init Error')
+    if not LotteryPrizeInit.set_zero_prize():
+        raise Exception('LotteryPrizeInit.set_zero_prize Error')
     return
 
 

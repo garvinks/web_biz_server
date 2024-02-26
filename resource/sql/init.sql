@@ -64,12 +64,9 @@ create table IF NOT EXISTS t_lottery_prize
         constraint t_lottery_prize_pk
             primary key autoincrement,
     order_no   varchar(16)     not null,
+    order_date varchar(16)     not null,
     prize_code varchar(64)     not null,
     prize_pool bigint          not null,
     created_at bigint unsigned not null,
     expired_at bigint unsigned not null
 );
-
-alter table t_lottery_prize
-    add order_date varchar(16) not null;
-
